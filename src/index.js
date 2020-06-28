@@ -15,6 +15,11 @@ import ReactDOM from 'react-dom';
 // return <h1>helle {props.name}</h1>
 // }
 
+/**
+ * 类组件
+ * 把属性对象传递给welcomee类的构造函数，并且得到welcome类的实例
+ * 调用render方法获取返回值，也是一个react元素
+ */
 class Welcome extends React.Component{
 render(){
 return <h1>hwllo {this.props.name}</h1>
