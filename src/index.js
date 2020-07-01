@@ -1,29 +1,46 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-/**
- * 我们把页面分成若干的独立部分，单独编写，单独维护
- * 函数组件
- * 一个返回普通react元素的函数就是一个合法的react组件
- * 组件需要返回一个并且仅能返回一个react根元素
- * 组件的名称需要大写
- * 
- * 收集属性对象props {name:'zhufeng',age:10}
- * 会把props对象传入welcome函数，并得到一个返回值 react元素
-*/
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-// function Welcome(props){
-// return <h1>helle {props.name}</h1>
-// }
-
+// setState 可能是异步操作
+// 解决this指针方法
 /**
- * 类组件
- * 把属性对象传递给welcomee类的构造函数，并且得到welcome类的实例
- * 调用render方法获取返回值，也是一个react元素
+ * bind()
+ * 匿名函数()=>{}
+ * 类的公共属性
  */
-class Welcome extends React.Component{
-render(){
-return <h1>hwllo {this.props.name}</h1>
+class Counter extends React.Component{
+    constructor(props){
+    super(props)
+    this.state={
+        number: 0
+    }
+    }
+    // 给类的实例增加一个add属性，而这个属性里的this绑死为组件的实例
+    // this.add
+    add(){
+        // 异步 合并
+        // console.log(this,'this')
+        // this.setState({
+        //     number: this.state.number + 1
+        // })
+        // console.log(this.state.number)
+        // this.setState({
+        //     number: this.state.number + 2
+        // })
+        // console.log(this.state.number)
+        // // 强制更新，不管状态和属性修改没有，都会强制刷新界面
+        // this.forceUpdate()
+        // 当调用setstate的时候，其实状态并没有直接改变，而是放在一个队列里面
+        this.setState((state)=>({number:state.number + 1}),()=>{console.log('callback')})
+        this.setState((state)=>({number:state.number + 1}))
+    }
+    render(){
+        return(
+        <>
+            <div>时间:{this.state.number}</div>
+            <button onClick={this.add.bind(this)}>+</button>
+        </>
+        )
+    }
 }
-}
-ReactDOM.render(<Welcome name="zhufeng"/>, document.getElementById('root'))
-
+ReactDOM.render(<Counter />,document.getElementById('root'))
